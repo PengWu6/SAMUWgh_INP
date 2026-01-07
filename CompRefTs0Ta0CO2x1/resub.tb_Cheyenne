@@ -1,0 +1,94 @@
+#!/bin/bash
+#PBS -N zCSET_RF10_Tr5p5_Lx115dx200
+#PBS -A UWAS0077
+#PBS -l walltime=12:00:00
+#PBS -q economy
+#PBS -j oe
+#PBS -m e
+#PBS -M pblossey@uw.edu
+#PBS -l select=12:ncpus=36:mpiprocs=36
+
+MPI_IB_CONGESTED=1
+MPI_LAUNCH_TIMEOUT=40
+
+scriptdir=/glade/u/home/$USER/scratch/SOCRATES/CSET/RF10_Lx115km_dx200m
+case=CSET_RF10_Tr5p5
+subcase=tb
+jobfile=$case/resub.$subcase
+logfile=log_restart_$case$subcase
+prmfile=$case/prm.$subcase
+prmloc=$case/prm
+cluster=cheyenne
+#SAMname=./SAM_ADV_UM5_SGS_TKE_RAD_RRTM4PBL_MICRO_M2005
+SAMname=../SAM_ADV_UM5_SGS_TKE_RAD_RRTM4PBL_MICRO_M2005_3d_576x576x432_432proc_2019-08-23
+
+# Change to correct directory
+\cd $scriptdir
+\cp $case/CaseName ./
+\cp $prmfile $prmloc
+
+rm -f ReadyForRestart
+
+if [ ! -e $SAMname ]
+    then
+    echo Could not find $SAMname
+    echo Executable does not exist
+    exit 9
+fi
+
+### load the modules on cheyenne
+if [ ! -z ${NCAR_HOST+subcase} ]; then
+  echo "NCAR_HOST exists"
+  if [ $NCAR_HOST == "cheyenne" ]; then
+    source /etc/profile.d/modules.sh
+    module unload intel netcdf mpt
+    module load intel/18.0.5 mpt/2.19 netcdf/4.6.3
+    module list
+  fi
+fi
+
+### Run the executable
+mpiexec_mpt dplace -s 1 ${SAMname} >> $logfile
+
+cat timing.0 >> $logfile
+
+### load modules for intel setup
+##source /etc/profile.d/modules.sh
+##module load intel/13.1.1 openmpi/1.6.4 netcdf/4.3.0-oly01
+##export LD_LIBRARY_PATH=/usr/local/modules/openmpi/1.6.4/intel/13.1.1/lib:${LD_LIBRARY_PATH}
+##
+##cat >$SAMname.sh <<EOF
+###!/bin/sh
+##ulimit -s unlimited
+##exec $SAMname
+##EOF
+##chmod +x $SAMname.sh
+##time mpirun $SAMname.sh >> $logfile
+###time mpirun --mca btl tcp,self $SAMname.sh >> $logfile
+##
+######time mpirun $SAMname >> $logfile
+##
+# Check to see if model is ready for a restart
+str1=`fgrep TRUE ReadyForRestart`
+
+if [ "$str1" == "TRUE" ]
+    then
+    
+    echo It appears the previous run ended properly and job not yet finished.
+
+    # modify nrestart in prm file, so that model will restart
+    cat $prmfile | sed s/nrestart.\*=.\*0/nrestart\ =\ 1/ > temp.namelist
+    \mv temp.namelist $prmfile
+    \cp $prmfile $prmloc
+
+    echo Resubmitting $jobfile
+    qsub $jobfile
+
+    # Remove the file that permits restarts to be submitted
+    rm -f ReadyForRestart
+
+else
+   echo "No restart required (or desired if the run failed)"
+fi
+
+exit 0

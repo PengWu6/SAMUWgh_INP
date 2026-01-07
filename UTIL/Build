@@ -1,0 +1,3 @@
+#! /bin/csh -f
+setenv GNUMAKE 'make -j8'
+$GNUMAKE -f ./Makefile

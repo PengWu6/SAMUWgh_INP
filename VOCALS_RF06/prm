@@ -1,0 +1,230 @@
+&MICRO_M2005_MA
+
+ ! No ice for this warm rain case.
+ doicemicro = .false.
+ dograupel = .false.
+
+!bloss: first option, fixed cloud droplet number concentration (from LES specs)
+dopredictNc = .true.
+Nc0 = 30.
+dospecifyaerosol = .true.
+doprogaerosol = .true.
+
+dogaschem = .false.
+doH2SO4uptake = .false.
+doaqchem = .false.
+dofixedH2O2 = .true.
+dofixedDMS = .true.
+doDMSsurfflux = .true.
+
+
+doprecoff = .false.
+dosedoff = .false.
+doevapnc = .true.
+docloudedgeactivation = .false.
+dofixedcoarsemode = .false.
+doacttransfer = .true.
+! doactmindropsize = .true.
+
+! docldselfcollect = .false.
+douse_reffc = .true.
+massfactor = 1.
+dototalwater = .false.
+do_output_micro_process_rates = .true.
+
+docoagulation = .false.
+coag_zmax = 1800.
+do_m2011_scavenge = .false.
+nscv = 3
+
+aerinitmode = 3
+aerinitFTfrac_acc = 0.5
+aerinitFTfrac_ait = 1.0
+aerfluxmode = 2
+sflux_nacc_coef= 43730000.
+sflux_nait_coef = 43730000.
+sflux_racc = 0.15
+sflux_rait = 0.0205
+
+DMSoceanconc = 2.8e-6
+DMSinit_bl = 1.e-10
+DMSinit_trop = 0.
+SO2init = 6.e-11
+H2SO4init = 5.e-14
+H2O2init = 7.e-10
+
+rm_accum = 0.1
+N_accum = 100.
+sigma_accum = 1.4
+
+rm_aitken = 0.025
+N_aitken = 100.
+sigma_aitken = 1.3
+
+/
+
+&MICRO_M2005_PA
+
+ ! No ice for this warm rain case.
+ doicemicro = .false.
+ dograupel = .false.
+
+dototalwater = .false.
+
+!bloss: first option, fixed cloud droplet number concentration (from LES specs)
+dopredictNc = .true.
+dospecifyaerosol = .true.
+doprogaerosol = .true.
+aerinitmode = 1
+doprecoff = .false.
+dosedoff = .false.
+doevapnc = .true.
+docloudedgeactivation = .true.
+douse_reffc = .true.
+massfactor = 1.
+
+do_m2011_scavenge = .true.
+Nc0 = 60.
+
+aer_rm1 = 0.1
+aer_sig1 = 2.0
+aer_n1 = 100.
+aer_rm2 = 0.1
+aer_sig2 = 2.0
+aer_n2 = 100.
+
+aerfluxmode = 2
+sflux_nacc_coef = 44440000.
+sflux_racc = 0.13
+
+do_output_micro_process_rates = .true.
+
+/
+
+&MICRO_M2005
+
+ ! No ice for this warm rain case.
+ doicemicro = .false.
+ dograupel = .false.
+
+!bloss: first option, fixed cloud droplet number concentration (from LES specs)
+dopredictNc = .true.
+dospecifyaerosol = .true.
+doprogaerosol = .true.
+douse_reffc = .true.
+
+Nc0 = 60.
+
+aer_rm1 = 0.1
+aer_sig1 = 2.0
+aer_n1 = 100.
+
+do_output_micro_process_rates = .true.
+
+/
+
+&MICRO_DRIZZLE
+
+ Nc0 = 60.,        ! prescribed cloud drop concentration for drizzle scheme
+ doclouddropsed = .true.
+
+/
+
+&SGS_TKE
+ dosmagor       = .false.,
+/
+
+&PARAMETERS
+
+! caseid ='192x1x384_125m_5m_0.5s_AER_NA100_W5_NOSHR_DRY_Z1300_DA_GRD1dbg2',
+ caseid ='test_NoScavenge_ah'
+
+ nrestart = 0,
+ perturb_type = 1,
+
+ LES = .true.,
+ OCEAN = .true.,
+
+ ug = 2.3
+ vg = 11.9
+
+ dosgs		= .true.,
+ dodamping 	= .true.,
+ doupperbound  	= .true.,
+ docloud 	= .true.,
+ doprecip 	= .true.,
+ dolongwave	= .true.,
+ doshortwave	= .true.,
+ doperpetual    = .true.,
+ dosurface 	= .true.,
+ dolargescale 	= .true.,
+ doradforcing   = .false.,
+ doradsimple    = .false., 
+ dosfcforcing   = .true.,
+ docoriolis 	= .true.,
+ donudging_uv   = .false.,
+ donudging_tq   = .true.,
+
+ tauls = 3600.,
+
+ SFC_FLX_FXD    = .false.,
+ SFC_TAU_FXD    = .false.,
+
+ latitude0 = -17.5,
+ longitude0 = -79.0,
+
+ dx = 	125.,
+ dy = 	125.,
+
+ dt = 	3.,
+ nrad = 5,
+ day0 = 302.125,
+
+rad3Dout = .true.,
+
+nstop 	= 7200, !3456000,
+nprint  = 100, !1200,
+nstat 	= 100, !1200,
+nstatfrq= 20, !40,
+
+doSAMconditionals = .true.
+dosatupdnconditionals = .false.
+
+ nsave2D	= 100,
+ nsave2Dstart	= 0,
+ nsave2Dend	= 99997200,
+ save2Dbin      = .true.
+
+ nsave3D	= 600,
+ nsave3Dstart	= 0,
+ nsave3Dend	= 999999999,
+ save3Dbin      = .true.
+
+ doSCAMiopdata = .true.
+ iopfile = 'VOCALS_RF06_forcing_17-Apr-2021.nc' !bloss: Converted from snd/lsf/sfc, steady-state
+ dozero_out_day0 = .false.
+
+ do_chunked_energy_budgets = .true.
+ do_chunked_momentum_budgets = .true.
+ nsaveMSE = 600,
+ nchunk_x_gl = 32
+ nchunk_y_gl = 1
+
+ ncycle0 = 3,
+ ncycle_max = 40,
+ ncycle_min = 3,
+
+ cfl_safety_factor = 1.5
+
+dovariable_tauz = .true.		  
+variable_tauz_offset_above_inversion = 150.
+variable_tauz_thickness_of_onset = 150.
+tautqls = 3600.
+
+/ 
+
+ &UWOPTIONS
+
+nelapsemin = 360
+
+/

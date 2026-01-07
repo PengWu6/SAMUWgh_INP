@@ -1,0 +1,221 @@
+ &UWOPTIONS
+ nelapsemin = 450,
+/
+
+&MICRO_DRIZZLE
+ Nc0 = 55.         ! prescribed cloud drop concentration for drizzle scheme
+/
+
+! cloud droplet number and aerosol properties taken from Appendix A of
+!   Ackerman et al (2009, https://10.1175/2008MWR2582.1 ).
+
+&MICRO_M2005
+ Nc0 = 55. 
+ doicemicro = .false.
+ dofix_pgam = .true.
+ dopredictNc = .false.
+ dospecifyaerosol = .true.
+ aer_n1 = 125. ! #/cm3
+ aer_rm1 = 0.011 ! micron
+ aer_sig1 = 1.2 
+ aer_n2 = 65. ! #/cm3
+ aer_rm2 = 0.006 ! micron
+ aer_sig2 = 1.7 
+/
+
+&MICRO_M2005_PA
+! Morrison with single mode bulk aerosol scheme
+! Choose "setenv MICRO_DIR MICRO_M2005_PA" in Build file.
+
+ ! No ice for this warm rain case.
+ doicemicro = .false.
+
+ dototalwater = .false.
+
+ dopredictNc = .true.
+
+ ! use one moment bulk aerosol scheme as in Berner et al (2013)
+ doprogaerosol = .true.
+
+ ! use scavenging of interstitial aerosol as in appendix of Berner et al (2013)
+ do_m2011_scavenge = .true.
+
+ docloudedgeactivation = .true.
+
+ ! use predicted effective radii in radiation (not needed for simple radiaiton here)
+ douse_reffc = .false.
+
+! Initial cloud droplet number concentration
+!   - could be adjusted to be appropriate for value of aer_n1.
+ Nc0 = 47. ! convert 55./cm3 to #/mg
+
+! specified initial aerosol profile (if aerinitmode=1):
+!  - aer_*1 gives conditions in the MBL, 
+!  - aer_*2 above the MBL
+! See code in SRC/MICRO_M2005_PA/microphysics.f90 with micro_init().
+ aerinitmode = 1
+ dospecifyaerosol = .true.
+ aer_n1 = 55. ! #/mg.  Smaller than Ackerman et al (2009)'s 75/cm3.
+ aer_rm1 = 0.06 ! micron
+ aer_sig1 = 1.7 
+ aer_n2 = 55. ! #/mg.  Smaller than Ackerman et al (2009)'s 75/cm3.
+ aer_rm2 = 0.06 ! micron
+ aer_sig2 = 1.7 
+
+ ! fix gamma exponent following Geoffroy et al (2010, ACP)
+ dofix_pgam = .true.
+
+ ! Interactive aerosol fluxes (requires "SFC_FLX_FXD = .false." in PARAMETERS namelist)
+ aerfluxmode = 2
+ sflux_nacc_coef = 44440000.
+ sflux_racc = 0.13
+
+ do_output_micro_process_rates = .true.
+
+/
+
+&MICRO_M2005_MA
+
+massfactor = 1.e8
+
+dototalwater = .false.
+doicemicro = .false.
+dograupel = .false.
+doprogaerosol = .true.
+do_m2011_scavenge = .true.
+nscv = 3
+
+docloudedgeactivation = .false.
+Nc0 = 47.
+
+doicemicro = .false.
+dofix_pgam = .true.
+ 
+dopredictNc = .true.
+dospecifyaerosol = .true.
+
+docoagulation = .true.
+dogaschem = .true.
+doH2SO4uptake = .true.
+doaqchem = .true.
+dofixedH2O2 = .true.
+dofixedDMS = .false.
+doDMSsurfflux = .false.
+doacttransfer = .true.
+
+aerinitmode = 3
+aerinitFTfrac_acc = 1.0
+aerinitFTfrac_ait = 1.0
+
+DMSoceanconc = 2.8e-6
+DMSinit_bl = 1.e-10
+DMSinit_trop = 0.
+SO2init = 0.5e-11
+H2SO4init = 5.e-14
+H2O2init = 7.e-10
+
+rm_accum = 0.06
+N_accum = 65.
+sigma_accum = 1.7
+
+rm_aitken = 0.011
+N_aitken = 125.
+sigma_aitken = 1.2
+
+
+aerfluxmode = 2
+sflux_nacc_coef= 43730000.
+sflux_nait_coef = 43730000.
+sflux_racc = 0.075
+sflux_rait = 0.015
+
+ do_output_micro_process_rates = .true.
+/
+
+
+&MICRO_P3
+ Nc0 = 55. 
+ dofix_pgam = .true.
+ log_predictNc = .false.
+ aerosol_mode1_number = 125.e6 ! #/kg
+ aerosol_mode1_radius = 11.e-9 ! meters
+ aerosol_mode1_sigmag = 1.2 
+ aerosol_mode1_number =  65.e6 ! #/kg
+ aerosol_mode1_radius = 6.e-9 ! meters
+ aerosol_mode1_sigmag = 1.7 
+/
+
+&MICRO_THOMPSON
+ Nc0 = 55. 
+/
+
+&SGS_TKE
+dosmagor = .false.
+/
+
+
+&PARAMETERS
+
+ caseid ='384sqx96_50m_5m_2sec_UM5_aa',
+
+ nrestart = 0,
+ perturb_type = 1,
+
+ LES = .true.,
+ OCEAN = .true.,
+
+ ug =  4.0
+ vg = -7.0
+
+ dosgs		= .true.,
+ dodamping 	= .true.,
+ doupperbound  	= .true.,
+ docloud 	= .true.,
+ doprecip 	= .true.,
+ dolongwave	= .true.,
+ doshortwave	= .false.,
+ dosurface 	= .true.,
+ dolargescale 	= .true.,
+ doradforcing   = .false.,
+ doradsimple    = .true., 
+ dosfcforcing   = .true.,
+ docoriolis 	= .true.,
+ donudging_uv   = .false.,
+ donudging_tq   = .false.,
+
+ SFC_FLX_FXD    = .false.,
+ SFC_TAU_FXD    = .false.,
+
+ latitude0 = 31.5,
+
+ dx = 	50.,
+ dy = 	50.,
+
+ dt = 	2.,
+ ncycle_max = 8,
+
+ day0=0.,
+
+nstop 	= 14400,
+nprint  = 150,
+nstat 	= 150,
+nstatfrq= 15,
+
+doSAMconditionals = .true.
+dosatupdnconditionals = .true.
+
+ nsave2D	= 3600,
+ nsave2Dstart	= 0,
+ nsave2Dend	= 99997200,
+ save2Dbin      = .true.
+
+ nsave3D	= 3600,
+ nsave3Dstart	= 0,
+ nsave3Dend	= 999999999,
+ save3Dbin      = .true.
+
+ tabs_s = 292.0
+
+/ 
+
+

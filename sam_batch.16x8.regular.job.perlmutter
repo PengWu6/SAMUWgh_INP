@@ -1,0 +1,19 @@
+#!/bin/bash
+#SBATCH -A m1657                        # m4086- ACDC2; m1657 - ICLASS
+#SBATCH -N 1
+#SBATCH --ntasks-per-node=128
+#SBATCH -C cpu
+#SBATCH -q regular
+#SBATCH -J totalwater
+#SBATCH -t 15:00:00
+#SBATCH -e logs/sam.comble.full.m2005.32.%j.err
+#SBATCH -o logs/sam.comble.full.m2005.32.%j.out
+#SBATCH --mail-type=begin,end,fail
+#SBATCH --mail-user peng.wu@pnnl.gov
+
+#run the application:
+ulimit -Sv unlimited -c 0
+#applications may performance better with --gpu-bind=none instead of --gpu-bind=single:1 
+srun -n 128 ./SAM_ADV_MPDATA_SGS_TKE_RAD_RRTM_MICRO_M2005_PA_PI
+#srun -n 128 ./SAM_ADV_MPDATA_SGS_TKE_RAD_CAM_MICRO_M2005
+

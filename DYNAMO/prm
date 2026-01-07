@@ -1,0 +1,101 @@
+&SGS_TKE
+dosmagor = .true.
+/
+
+! Estimate of BL CCN concentration for DYNAMO from 
+!  Stolz et al (2017, https://doi.org/10.1175/JAS-D-16-0054.1, fig. 3)
+!  which gives a range of 25-250 taken from area-averaged GEOS-CHEM
+!  simulations over the layer from 1000-850 hPa.  Larger values occur
+!  for the northern subregion and may be associated with continental airmasses. 
+
+&MICRO_M2005
+ Nc0 = 50. 
+ dofix_pgam = .true.
+ dopredictNc = .true.
+ dospecifyaerosol = .true.
+ aer_n1 = 100. ! #/cm3
+
+ doicemicro = .true.
+ dograupel = .true.
+/
+
+&MICRO_P3
+ Nc0 = 50.
+ dofix_pgam = .true.
+ log_predictNc = .true.
+ aerosol_mode1_number = 100.e6 ! #/kg
+/
+
+&MICRO_THOMPSON
+ Nc0 = 50.
+/
+
+&PARAMETERS
+
+caseid ='128x128x64_2km_10s',
+
+nrestart = 0,
+
+CEM = .true.,
+OCEAN = .true.,
+doseawater = .true.,
+
+dosgs		= .true.,
+dodamping 	= .true.,
+doupperbound  	= .true.,
+docloud 	= .true.,
+doprecip 	= .true., 
+dolongwave	= .true.,
+doshortwave	= .true.,
+dosurface 	= .true.,
+dolargescale 	= .true.,
+doradforcing    = .false.,
+dosfcforcing    = .true.,
+docoriolis 	= .false.,
+donudging_uv    = .true.,
+donudging_tq    = .false.,
+
+doisccp = .true.,
+
+tauls = 7200.,
+
+SFC_FLX_FXD    = .false.,
+SFC_TAU_FXD    = .false.,
+
+longitude0 = 76.5,
+latitude0 = 3.,
+
+nrad = 30,
+
+doseasons = .true.,
+
+dx = 	2000.,
+dy = 	2000.,
+
+dt = 	10.,
+
+day0=274.,
+
+nstop 	= 786240,
+nprint 	= 180,
+nstat 	= 1080,
+nstatfrq= 36,
+
+doSAMconditionals = .false.
+dosatupdnconditionals = .false.
+
+
+nsave2D	= 1080,
+nsave2Dstart	= 0, 
+nsave2Dend	= 999164000,
+save2Davg = .false.
+
+nsave3D	= 1080,
+nsave3Dstart	= 0,
+nsave3Dend	= 999999999,
+save3Dbin      = .false.
+
+/ 
+
+
+

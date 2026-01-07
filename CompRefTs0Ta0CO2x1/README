@@ -1,0 +1,3 @@
+This is the control case for Bretherton and Blossey (2014, JAMES, https://doi.org/10.1002/2013MS000250).  OThe netcdf forcing files for the other cases are included in the SensitivityStudies/ subdirectory.  In the directory name, TsXTaYCO2xZ means that the mean state profile is based on an X degree C increase in the SST and BL temperature, a Y degreeC increase in the warm pool SST that fixes the moist adiabat for the above-BL temperature and an increase in CO2 by a factor of Z from the present-day value.  Be sure to specify the CO2 increase using the nxco2 namelist parameter.
+
+Peter Blossey, 2020-05-26

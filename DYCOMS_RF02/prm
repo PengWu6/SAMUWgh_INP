@@ -1,0 +1,105 @@
+&MICRO_DRIZZLE
+ Nc0 = 55.         ! prescribed cloud drop concentration for drizzle scheme
+/
+
+! cloud droplet number and aerosol properties taken from Appendix A of
+!   Ackerman et al (2009, https://10.1175/2008MWR2582.1 ).
+
+&MICRO_M2005
+ Nc0 = 55. 
+ doicemicro = .false.
+ dofix_pgam = .true.
+ dopredictNc = .false.
+ dospecifyaerosol = .true.
+ aer_n1 = 125. ! #/cm3
+ aer_rm1 = 0.011 ! micron
+ aer_sig1 = 1.2 
+ aer_n2 = 65. ! #/cm3
+ aer_rm2 = 0.006 ! micron
+ aer_sig2 = 1.7 
+/
+
+&MICRO_P3
+ Nc0 = 55. 
+ dofix_pgam = .true.
+ log_predictNc = .false.
+ aerosol_mode1_number = 125.e6 ! #/kg
+ aerosol_mode1_radius = 11.e-9 ! meters
+ aerosol_mode1_sigmag = 1.2 
+ aerosol_mode1_number =  65.e6 ! #/kg
+ aerosol_mode1_radius = 6.e-9 ! meters
+ aerosol_mode1_sigmag = 1.7 
+/
+
+&MICRO_THOMPSON
+ Nc0 = 55. 
+/
+
+&SGS_TKE
+dosmagor = .false.
+/
+
+
+&PARAMETERS
+
+ caseid ='128x128x96_50m_5m_0.5s',
+
+ nrestart = 0,
+ perturb_type = 1,
+
+ LES = .true.,
+ OCEAN = .true.,
+
+ ug =  4.0
+ vg = -7.0
+
+ dosgs		= .true.,
+ dodamping 	= .true.,
+ doupperbound  	= .true.,
+ docloud 	= .true.,
+ doprecip 	= .true.,
+ dolongwave	= .true.,
+ doshortwave	= .false.,
+ dosurface 	= .true.,
+ dolargescale 	= .true.,
+ doradforcing   = .false.,
+ doradsimple    = .true., 
+ dosfcforcing   = .true.,
+ docoriolis 	= .true.,
+ donudging_uv   = .false.,
+ donudging_tq   = .false.,
+
+ SFC_FLX_FXD    = .true.,
+ SFC_TAU_FXD    = .true.,
+
+ latitude0 = 31.5,
+
+ dx = 	50.,
+ dy = 	50.,
+
+ dt = 	0.5,
+
+ day0=0.,
+
+nstop 	= 57600,
+nelapse = 10800,
+nprint  = 30,
+nstat 	= 600,
+nstatfrq= 20,
+
+doSAMconditionals = .true.
+dosatupdnconditionals = .true.
+
+ nsave2D	= 3600,
+ nsave2Dstart	= 997200,
+ nsave2Dend	= 99997200,
+ save2Dbin      = .true.
+
+ nsave3D	= 3600,
+ nsave3Dstart	= 997200,
+ nsave3Dend	= 999999999,
+ save3Dbin      = .true.
+
+/ 
+
+

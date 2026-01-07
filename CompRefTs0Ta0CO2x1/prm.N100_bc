@@ -1,0 +1,132 @@
+
+&SGS_TKE
+dosmagor = .false.
+/
+
+
+ &MICRO_DRIZZLE
+
+ Nc0 = 100.
+ sigmag = 1.2
+
+/
+
+ &MICRO_M2005
+
+ Nc0 = 100.,
+ doicemicro = .false.
+
+/
+
+ &MICRO_THOM
+
+ Nc0 = 100.,
+ doicemicro = .false.
+
+/
+
+ &PARAMETERS
+
+ caseid ='36sqx512_35m_M2005_RRTM_N100_bc',
+
+ nrestart = 0,
+
+ CEM = .true.,
+
+ OCEAN = .true.,
+
+ dosgs		= .true.,
+ dodamping 	= .true.,
+ doupperbound  	= .true.,
+ docloud 	= .true.,
+ doprecip 	= .true.,
+ doradsimple    = .false., 
+ dolongwave	= .true.,
+ doshortwave	= .true.,
+ dosurface 	= .true.,
+ dolargescale 	= .true.,
+ doradforcing   = .false.,
+ dosfcforcing   = .true.,
+ docoriolis 	= .true.,
+ donudging_uv   = .false.,
+ donudging_tq   = .true.,
+
+ ! apply temperature nudging starting 500m above inversion
+ dovariable_tauz = .true.
+ variable_tauz_offset_above_inversion = 500.
+ variable_tauz_minimum_height = 1200.
+ tautqls = 3600.,
+
+ tauls = 7200.,
+
+ SFC_FLX_FXD    = .false.,
+ SFC_TAU_FXD    = .false.,
+
+ latitude0 = 34.0,
+ longitude0 = -25.,
+
+ ug = -2.,
+ vg = -4.,
+
+ dx = 	35.,
+ dy = 	35.,
+
+ dt = 3.0,
+
+ nxco2 = 1.
+
+ doperpetual = .false.
+ dosolarconstant = .true.
+ solar_constant = 593.6336
+ zenith_angle = 38.7340
+ nrad = 5,
+ day0= 196.75,
+
+nstop 	= 14400,
+nprint  = 1200,
+nstat 	= 1200,
+nstatfrq= 240,
+
+ nsave2D	= 1200,
+ nsave2Dstart	= 0,
+ nsave2Dend	= 99997200,
+ save2Dbin      = .true.
+ save2Davg = .false.
+
+ nsave3D	= 7200,
+ nsave3Dstart	= 0,
+ nsave3Dend	= 999999999,
+ save3Dbin      = .true.
+
+ doSAMconditionals = .true.
+ dosatupdnconditionals = .true.
+
+ doisccp = .true.
+ domodis = .true.
+ domisr = .true.
+
+ doSCAMiopdata = .true.
+ dozero_out_day0 = .false.
+ iopfile = 'composite_ref_rrtm_dTs0_dTa0_1xCO2_adjomega.nc'
+
+ perturb_type = 6
+
+ ncycle_min = 2,
+ ncycle_max = 40,
+ cfl_safety_factor = 1.5
+
+ do_chunked_energy_budgets = .true.
+ nchunk_x_gl = 3
+ nchunk_y_gl = 3
+ nsaveMSE = 1200
+
+/ 
+
+ &UWOPTIONS
+
+ nelapsemin = 1,
+
+! do_smooth_reference_density = .true.
+! lz_smooth = 600.
+
+/

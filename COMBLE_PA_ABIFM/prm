@@ -1,0 +1,116 @@
+&SGS_TKE
+dosmagor = .true.
+/
+
+&MICRO_M2005_PA_PI  ! 
+douse_reffc = .true.,
+douse_reffi = .true.,
+dopredictNc  = .true.,
+doicemicro = .true.,        ! use ice       (default = .false.)
+dograupel = .true.,        ! use graupel   (default = .false.)
+dohail = .false.,           ! graupel species has properties of graupel
+
+dototalwater = .true.
+
+doprogaerosol = .true.
+! do_m2011_scavenge = .true.
+dospecifyaerosol = .true.
+docloudedgeactivation = .true.
+aerinitmode = 1
+hygro = 0.2
+aer_rm1 = 0.07
+aer_n1 =  105.5 
+aer_sig1 = 1.6
+aer_rm2 = 0.07  ! free troposphere
+aer_n2 = 105.5 
+aer_sig2 = 1.6
+
+! choose at most one of the following options (or not choose either)
+!doarcticicenucl = .false.,
+!arctic_ice_nuclei_Nice = 10.
+doabifm = .true., ! if true, also specify cjhet and mjhet 
+!! coefficients to compute Jhet from delta_aw for SSA, jhet = 10.**(c + m * delta_aw)
+cjhet = -3.9346 ! -3.9346 for SSA, change by 1 --> jhet change by 10
+mjhet = 26.6132
+
+aerfluxmode = 2
+sflux_racc = 0.1275
+sflux_nacc_coef= 43730000. ! for use in Clarke et al. (2006) as in Berner et al. (2013)
+
+do_output_micro_process_rates = .true.
+
+/
+
+&PARAMETERS
+
+ nrestart = 0
+
+caseid ='ABIFM_25jhet_clarke',
+ 
+LES = .true.,
+ OCEAN = .true.,
+
+ dosgs		= .true.,
+ dodamping 	= .true.,
+ doupperbound  	= .true.,
+ docloud 	= .true.,
+ doprecip 	= .true., 
+ dolongwave	= .true.,
+ doshortwave	= .false.,
+ nrad           = 600,
+
+ dosurface 	= .true.,
+ dolargescale 	= .false.,   ! false = no subsidence; true = include subsidence
+ doradforcing   = .false.,
+ dosfcforcing   = .true.,   ! 
+ docoriolis 	= .false.,
+ donudging_uv   = .true.,   !.false.,   ! .true.,
+ donudging_tq   = .true.,
+
+ tauls = 7200.,             ! nudging timescale for uv
+ nudging_t_z2  = 20000.
+ nudging_q_z2  = 20000.
+ nudging_uv_z1 = 500.,        ! nudging uv low level 
+ nudging_uv_z2 = 20000.,    ! nudging uv top level 
+
+ SFC_FLX_FXD    = .false.,   !.true.,
+ SFC_TAU_FXD    = .false.,
+
+ z0 = 0.0018,           ! m
+ soil_wetness = 0.,
+ fcor = 1.40e-4,        ! 73N - 1.391e-4 ; 75N - 1.405e-4; 77N - 1.417e-4; 
+
+ ug = 0.
+ vg = -25.
+
+ dx = 	100.,
+ dy = 	100.,
+ dt = 	1.,
+
+ day0=71.9166,      ! trajectory ends 13mar20 18:00 (JD 72.75); need to change day in forcing
+                    ! ice edge -18 (JD 72); start run -20 (71.9166) 
+
+ nstop 		= 72000,  ! 20 hr:72000, 5hr:18000, 4hr:14400, 3hr:10800, 9hr: 32400,
+ nprint 	= 300,
+ nstat 		= 300,
+ nstatfrq 	= 1,      ! 1 = instanteneous output
+
+ nsave2D	= 300,  ! 900
+ nsave2Dstart	= 0,
+ nsave2Dend	= 999164000,
+ save2Davg   =.true.,
+
+ nsave3D	= 300  !900,
+ nsave3Dstart	= 0,
+ nsave3Dend	= 999164000,
+ 
+! nsave2D	= 9999180,
+! nsave2Dstart	= 99992160,
+! nsave2Dend	= 999164000,
+
+! nsave3D	= 999999360,
+! nsave3Dstart	= 999992160,
+! nsave3Dend	= 999164000,
+
+/ 
+
